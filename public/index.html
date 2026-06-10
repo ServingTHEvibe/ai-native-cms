@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI-native CMS</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand" id="brandHome">◆ AI&nbsp;CMS</div>
+    <nav class="crumbs" id="crumbs"></nav>
+    <div class="spacer"></div>
+    <span class="badge" id="roleBadge"></span>
+    <button class="ghost" id="logoutBtn" hidden>Sign out</button>
+  </header>
+
+  <main id="view"></main>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <!-- ===================== Templates ===================== -->
+
+  <template id="tpl-login">
+    <section class="auth">
+      <div class="card">
+        <h1>Sign in</h1>
+        <div class="tabs">
+          <button class="tab active" data-tab="owner">Owner</button>
+          <button class="tab" data-tab="client">Client</button>
+        </div>
+        <form class="pane" data-pane="owner">
+          <label>Owner master key</label>
+          <input type="password" name="key" placeholder="owner master key" autocomplete="off" />
+          <button class="primary" type="submit">Enter dashboard</button>
+          <p class="hint">Full access to every site.</p>
+        </form>
+        <form class="pane" data-pane="client" hidden>
+          <label>Site</label>
+          <input type="text" name="slug" placeholder="site-slug" autocomplete="off" />
+          <label>Password</label>
+          <input type="password" name="password" placeholder="client password" autocomplete="off" />
+          <button class="primary" type="submit">Open my site</button>
+          <p class="hint">Clients only ever see their own site.</p>
+        </form>
+      </div>
+    </section>
+  </template>
+
+  <template id="tpl-dashboard">
+    <section class="wrap">
+      <div class="row between">
+        <h1>Sites</h1>
+        <button class="primary" id="newSiteBtn">+ New site</button>
+      </div>
+      <div id="sitesList" class="grid"></div>
+    </section>
+  </template>
+
+  <template id="tpl-newsite">
+    <section class="wrap narrow">
+      <h1>Create a site</h1>
+      <form id="newSiteForm" class="card form">
+        <label>Site name</label>
+        <input name="name" placeholder="Acme Co." />
+        <label>Ingest a starting page (URL)</label>
+        <input name="url" placeholder="https://example.com" />
+        <p class="hint">We fetch the page, freeze its layout, and auto-tag every text / image / button / link as an editable slot.</p>
+        <label>Client password <span class="muted">(optional — lets the client log in to just this site)</span></label>
+        <input name="clientPassword" type="text" placeholder="set a password for the client" />
+        <div class="row gap">
+          <button class="primary" type="submit">Create &amp; ingest</button>
+          <button class="ghost" type="button" id="cancelNew">Cancel</button>
+        </div>
+      </form>
+    </section>
+  </template>
+
+  <template id="tpl-site">
+    <section class="wrap">
+      <div class="row between">
+        <h1 id="siteTitle"></h1>
+        <div class="row gap">
+          <button class="ghost" id="settingsBtn">Settings</button>
+          <button class="primary" id="publishBtn">Publish</button>
+        </div>
+      </div>
+      <div class="cols">
+        <div>
+          <div class="row between"><h2>Pages</h2><button class="ghost small" id="addPageBtn">+ Add page</button></div>
+          <div id="pagesList" class="list"></div>
+        </div>
+        <div>
+          <h2>Publishes</h2>
+          <div id="snapsList" class="list muted-empty">No publishes yet.</div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="tpl-editor">
+    <section class="editor">
+      <aside class="panel">
+        <div class="row between">
+          <button class="ghost small" id="backToSite">← Site</button>
+          <span id="editorPageName" class="muted"></span>
+        </div>
+
+        <div class="chatbox">
+          <div class="row between"><h3>AI edit</h3><span id="aiState" class="pill"></span></div>
+          <div id="chatLog" class="chatlog"></div>
+          <form id="chatForm" class="chatform">
+            <input id="chatInput" placeholder="e.g. change the headline to 'Built for speed'" />
+            <button class="primary small" type="submit">Send</button>
+          </form>
+        </div>
+
+        <h3>Slots</h3>
+        <div id="slotList" class="slotlist"></div>
+      </aside>
+
+      <div class="stage">
+        <div class="stagebar">
+          <span class="muted" id="stageHint">Click any highlighted element to edit it inline.</span>
+          <div class="row gap">
+            <button class="ghost small" id="versionsBtn">Versions</button>
+            <button class="ghost small" id="refreshPreview">Refresh</button>
+          </div>
+        </div>
+        <iframe id="preview" title="preview"></iframe>
+      </div>
+
+      <div id="inlineEditor" class="inline-pop" hidden></div>
+      <div id="versionsPanel" class="versions" hidden></div>
+    </section>
+  </template>
+
+  <script src="/app.js"></script>
+</body>
+</html>

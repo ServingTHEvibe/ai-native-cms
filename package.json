@@ -1,0 +1,21 @@
+{
+  "name": "ai-native-cms",
+  "version": "1.0.0",
+  "description": "AI-native client CMS: ingest a URL into editable slots over a frozen template, edit inline or by chat, version + rollback, and publish immutable snapshots.",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "node test/smoke.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0"
+  }
+}
